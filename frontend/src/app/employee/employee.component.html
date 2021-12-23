@@ -1,0 +1,61 @@
+<div class="mat-elevation-z8">
+  <mat-table matTableFilter [dataSource]="employees" [exampleEntity]="filterobject" [filterType]='filtertype' color="primary">
+
+    <ng-container matColumnDef="name">
+      <mat-header-cell *matHeaderCellDef>
+        <mat-form-field>
+          <mat-label>Name</mat-label>
+          <input matInput [(ngModel)]="filterobject.name">
+        </mat-form-field>
+      </mat-header-cell>
+      <mat-cell *matCellDef="let employee"> {{employee.name}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="employeeid">
+      <mat-header-cell *matHeaderCellDef>
+        <mat-form-field>
+          <mat-label>ID</mat-label>
+          <input matInput [(ngModel)]="filterobject.employeeid">
+        </mat-form-field>
+      </mat-header-cell>
+      <mat-cell *matCellDef="let employee"> {{employee.employeeid}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="jobtitle">
+      <mat-header-cell *matHeaderCellDef>
+        <mat-form-field>
+          <mat-label>Job Title</mat-label>
+          <input matInput [(ngModel)]="filterobject.jobtitle">
+        </mat-form-field>
+      </mat-header-cell>
+      <mat-cell *matCellDef="let employee">
+        <ng-container *ngIf="employee.jobtitle != null">
+          {{employee.jobtitle}} 
+        </ng-container>
+        <ng-container *ngIf="employee.jobtitle == null">
+          NA
+        </ng-container> 
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="department">
+      <mat-header-cell *matHeaderCellDef>
+        <mat-form-field>
+          <mat-label>Department</mat-label>
+          <input matInput [(ngModel)]="filterobject.department">
+        </mat-form-field>
+      </mat-header-cell>
+      <mat-cell *matCellDef="let employee"> 
+        <ng-container *ngIf="employee.department != null">
+          {{employee.department}} 
+        </ng-container>
+        <ng-container *ngIf="employee.department == null">
+          NA
+        </ng-container> 
+      </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedcols"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedcols"></mat-row>
+  </mat-table>
+</div>
