@@ -4,6 +4,7 @@ const legacysystemhandler = require('../legacysystemhandler');
 const {Product} = require('../classes/Product');
 const {Customer} = require('../classes/Customer');
 const {SalesOrder} = require('../classes//SalesOrder');
+const { Employee } = require('../classes/Employee');
 router.use(express.json());
 
 router.get('/readallcustomers',(req,res) =>{
@@ -63,14 +64,28 @@ router.get('/readallsales',(req,res) =>{
 });
 
 router.get('/readsale/:id',(req,res) =>{
-    legacysystemhandler.executeopencrxcall('https://sepp-crm.inf.h-brs.de/opencrx-rest-CRX/org.opencrx.kernel.contract1/provider/CRX/segment/Standard/salesOrder/' + req.params.id).then(function(result) 
+    legacysystemhandler.executeopencrxcall('https://sepp-crm.inf.h-brs.de/opencrx-rest-CRX/org.opencrx.kernel.contract1/provider/CRX/segment/Standard/salesOrder/' + req.params.id).then(async function(result) 
         {
-            //res.send(result.data);
-            let customer = legacysystemhandler.executeopencrxcall(result.data['customer']['@href']);
-            res.send(customer);
+            let customerrequest = await legacysystemhandler.executeopencrxcall(result.data['customer']['@href']);
+            let customer = Customer.fromJson(customerrequest.data);
+
+            let employeerequest = await legacysystemhandler.executeopencrxcall(result.data['salesRep']['@href']);
+            let employee = Employee.fromopenJson(employeerequest.data);
+
+            let productsrequest = await legacysystemhandler.executeopencrxcall('https://sepp-crm.inf.h-brs.de/opencrx-rest-CRX/org.opencrx.kernel.contract1/provider/CRX/segment/Standard/salesOrder/' + req.params.id + "/position");
+
+            let productspromises = productsrequest.data.objects.map((product) => legacysystemhandler.executeopencrxcall(product['product']['@href']));
+            let products = [];
+
+            await Promise.all(productspromises).then((product) => {
+                products = product.map((p,i) => Product.fromJson(p.data,productsrequest.data.objects[i]["quantity"]));
+            });
+
+            res.send(SalesOrder.fromJson(result.data,customer,employee,products));
         }
-    ).catch(function() 
+    ).catch(function(err) 
         {
+            console.log(err);
             res.status(404).send("order not found");
         }
     );

@@ -10,7 +10,7 @@ router.get('/readallemployees',(req,res) =>{
         {
             let employees = [];
             result.data.data.forEach(emp => {
-                employees.push(Employee.fromJson(emp));
+                employees.push(Employee.fromorangeJson(emp));
             });
             res.send(employees);
         }
@@ -20,7 +20,7 @@ router.get('/readallemployees',(req,res) =>{
 async function reademployee(req,res){
     return await legacysystemhandler.executegetorangehrmcall('employee/' + req.params.id).then(function(result) 
         {
-            res.send(Employee.fromJson(result.data.data));
+            res.send(Employee.fromorangeJson(result.data.data));
         }
     ).catch(function() 
         {
