@@ -54,11 +54,29 @@ router.get('/readproduct/:id',(req,res) =>{
         }
     );
 });
+async function fetchsalesorderdata(salesorderjson){
+    let customerrequest = await legacysystemhandler.executeopencrxcall(salesorderjson['customer']['@href']);
+    let customer = Customer.fromJson(customerrequest.data);
+
+    let employeerequest = await legacysystemhandler.executeopencrxcall(salesorderjson['salesRep']['@href']);
+    let employee = Employee.fromopenJson(employeerequest.data);
+
+    let productsrequest = await legacysystemhandler.executeopencrxcall('https://sepp-crm.inf.h-brs.de/opencrx-rest-CRX/org.opencrx.kernel.contract1/provider/CRX/segment/Standard/salesOrder/' + req.params.id + "/position");
+
+    let productspromises = productsrequest.data.objects.map((product) => legacysystemhandler.executeopencrxcall(product['product']['@href']));
+    let products = [];
+
+    await Promise.all(productspromises).then((product) => {
+        products = product.map((p,i) => Product.fromJson(p.data,productsrequest.data.objects[i]["quantity"]));
+    });
+
+    return SalesOrder.fromJson(salesorderjson,customer,employee,products);
+}
 
 router.get('/readallsales',(req,res) =>{
     legacysystemhandler.executeopencrxcall('https://sepp-crm.inf.h-brs.de/opencrx-rest-CRX/org.opencrx.kernel.contract1/provider/CRX/segment/Standard/salesOrder').then(function(result) 
         {
-            res.send(result.data.objects);
+
         }
     );
 });
@@ -66,22 +84,9 @@ router.get('/readallsales',(req,res) =>{
 router.get('/readsale/:id',(req,res) =>{
     legacysystemhandler.executeopencrxcall('https://sepp-crm.inf.h-brs.de/opencrx-rest-CRX/org.opencrx.kernel.contract1/provider/CRX/segment/Standard/salesOrder/' + req.params.id).then(async function(result) 
         {
-            let customerrequest = await legacysystemhandler.executeopencrxcall(result.data['customer']['@href']);
-            let customer = Customer.fromJson(customerrequest.data);
-
-            let employeerequest = await legacysystemhandler.executeopencrxcall(result.data['salesRep']['@href']);
-            let employee = Employee.fromopenJson(employeerequest.data);
-
-            let productsrequest = await legacysystemhandler.executeopencrxcall('https://sepp-crm.inf.h-brs.de/opencrx-rest-CRX/org.opencrx.kernel.contract1/provider/CRX/segment/Standard/salesOrder/' + req.params.id + "/position");
-
-            let productspromises = productsrequest.data.objects.map((product) => legacysystemhandler.executeopencrxcall(product['product']['@href']));
-            let products = [];
-
-            await Promise.all(productspromises).then((product) => {
-                products = product.map((p,i) => Product.fromJson(p.data,productsrequest.data.objects[i]["quantity"]));
-            });
-
-            res.send(SalesOrder.fromJson(result.data,customer,employee,products));
+            console.log(result.data);
+            let salesorder = await fetchsalesorderdata(result.data);
+            res.send(salesorder);
         }
     ).catch(function(err) 
         {

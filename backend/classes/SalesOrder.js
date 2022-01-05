@@ -1,5 +1,5 @@
 class SalesOrder{
-    constructor(salesorderid,name,date,totalamount,tax,totalamountwithtaxç,customer = null,employee = null,products = null){
+    constructor(salesorderid,name,date,totalamount,tax,totalamountwithtax,customer = null,employee = null,products = null){
         this.salesorderid = salesorderid;
         this.name = name;
         this.date = date;

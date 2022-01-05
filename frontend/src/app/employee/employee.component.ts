@@ -20,5 +20,7 @@ export class EmployeeComponent implements OnInit {
       this.employees = new MatTableDataSource<employee>(employees);
     });
   }
-
+  clickedrow(row:employee){
+    console.log(row);
+  }
 }
