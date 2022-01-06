@@ -12,12 +12,14 @@ import { MatButtonModule } from "@angular/material/button";
 import { MatTableFilterModule } from 'mat-table-filter';
 import { MatInputModule } from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
+import { CalcbonusComponent } from './calcbonus/calcbonus.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    EmployeeComponent  
+    EmployeeComponent,
+    CalcbonusComponent  
   ],
   imports: [
     BrowserModule,

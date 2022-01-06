@@ -3,6 +3,7 @@ import { employee } from '../interfaces/employee';
 import { EmployeeService } from '../employee.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatTableFilter } from 'mat-table-filter';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-employee',
@@ -11,9 +12,9 @@ import { MatTableFilter } from 'mat-table-filter';
 })
 export class EmployeeComponent implements OnInit {
   employees!: MatTableDataSource<employee>;
-  filterobject:employee ={ name: "",employeeid: "",jobtitle: "" ,department:"" };
+  filterobject:employee ={ name: "",employeeid: "",jobtitle: "" ,department:"",orangehrmid:"" };
   displayedcols:string[] = ['name','employeeid','jobtitle','department'];
-  constructor(private empservice:EmployeeService) { }
+  constructor(private empservice:EmployeeService,private router: Router) { }
   filtertype:MatTableFilter = MatTableFilter.STARTS_WITH;
   ngOnInit(): void {
     this.empservice.getEmployees().subscribe(employees => {
@@ -21,6 +22,6 @@ export class EmployeeComponent implements OnInit {
     });
   }
   clickedrow(row:employee){
-    console.log(row);
+    this.router.navigateByUrl('/calcbonus', { state: { selectedemp: row } });
   }
 }

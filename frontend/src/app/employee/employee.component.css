@@ -2,11 +2,10 @@ mat-table{
     width: 100%;
 }
 div{
-    height: 400px;
     overflow: auto;
     width: 80%;
+    height: calc(100vh - 64px);
     margin: auto;
-    margin-top: 40px;
 }
 .mat-row .mat-cell {
     border-bottom: 1px solid transparent;
