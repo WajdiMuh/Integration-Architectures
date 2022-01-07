@@ -1,6 +1,6 @@
 <div class="mat-elevation-z8">
-  <mat-table matTableFilter [dataSource]="employees" [exampleEntity]="filterobject" [filterType]='filtertype' color="primary">
-
+  <mat-spinner *ngIf="finishedloading == false"></mat-spinner>
+  <mat-table matTableFilter [dataSource]="employees" [exampleEntity]="filterobject" [filterType]='filtertype' color="primary" *ngIf="finishedloading == true">
     <ng-container matColumnDef="name">
       <mat-header-cell *matHeaderCellDef>
         <mat-form-field>

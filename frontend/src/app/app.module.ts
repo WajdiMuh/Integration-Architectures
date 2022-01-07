@@ -13,6 +13,7 @@ import { MatTableFilterModule } from 'mat-table-filter';
 import { MatInputModule } from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
 import { CalcbonusComponent } from './calcbonus/calcbonus.component';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 
 @NgModule({
@@ -32,7 +33,8 @@ import { CalcbonusComponent } from './calcbonus/calcbonus.component';
     MatButtonModule,
     MatTableFilterModule,
     MatInputModule,
-    FormsModule
+    FormsModule,
+    MatProgressSpinnerModule
   ],
   providers: [],
   bootstrap: [AppComponent]

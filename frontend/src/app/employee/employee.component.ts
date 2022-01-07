@@ -11,6 +11,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./employee.component.css']
 })
 export class EmployeeComponent implements OnInit {
+  finishedloading:Boolean = false;
   employees!: MatTableDataSource<employee>;
   filterobject:employee ={ name: "",employeeid: "",jobtitle: "" ,department:"",orangehrmid:"" };
   displayedcols:string[] = ['name','employeeid','jobtitle','department'];
@@ -19,6 +20,7 @@ export class EmployeeComponent implements OnInit {
   ngOnInit(): void {
     this.empservice.getEmployees().subscribe(employees => {
       this.employees = new MatTableDataSource<employee>(employees);
+      this.finishedloading = true;
     });
   }
   clickedrow(row:employee){

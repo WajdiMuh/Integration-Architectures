@@ -6,6 +6,7 @@ div{
     width: 80%;
     height: calc(100vh - 64px);
     margin: auto;
+    display: flex;
 }
 .mat-row .mat-cell {
     border-bottom: 1px solid transparent;
@@ -15,4 +16,7 @@ div{
   
 .mat-row:hover .mat-cell {
     border-color: currentColor;
+}
+mat-spinner{
+    margin: auto;
 }
