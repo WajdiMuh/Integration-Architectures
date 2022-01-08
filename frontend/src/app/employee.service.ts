@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { employee } from './interfaces/employee';
+import { Employee } from './interfaces/Employee';
+import { SalesOrder } from './interfaces/SalesOrder';
 import { catchError, map, Observable } from 'rxjs';
 
 @Injectable({
@@ -10,12 +11,22 @@ export class EmployeeService {
 
   constructor(private http: HttpClient) { }
 
-  getEmployees(): Observable<employee[]> {
-    return this.http.get<employee[]>('/api/orangehrm/readallemployees')
+  getEmployees(): Observable<Employee[]> {
+    return this.http.get<Employee[]>('/api/orangehrm/readallemployees')
     .pipe(map(employees => employees,
       catchError(err => {
         throw 'error ' + err;
       }) 
-    )); 
+    ));
   }
+
+  getSalesbyemployeeinyear(employeeid:string,year:string): Observable<SalesOrder[]> {
+    return this.http.get<SalesOrder[]>('/api/opencrx/readsalesbyemployeeinyear/' + employeeid + '/' + year)
+    .pipe(map(salesorders => salesorders,
+      catchError(err => {
+        throw 'error ' + err;
+      })
+    ));
+  }
+
 }

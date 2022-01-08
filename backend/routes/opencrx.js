@@ -5,6 +5,7 @@ const {Product} = require('../classes/Product');
 const {Customer} = require('../classes/Customer');
 const {SalesOrder} = require('../classes//SalesOrder');
 const { Employee } = require('../classes/Employee');
+const moment = require('moment');
 router.use(express.json());
 
 router.get('/readallcustomers',(req,res) =>{
@@ -117,5 +118,32 @@ router.get('/readsalesbyemployee/:id',(req,res) =>{
         }
     );
 });
+
+function datetodatetimestring(year){
+    let startdate = moment(year).toISOString(true).replaceAll('-','').replaceAll(':','').slice(0, -5) + "Z";
+    let enddate = moment(year).add(1, 'year').toISOString(true).replaceAll('-','').replaceAll(':','').slice(0, -5) + "Z";
+    return {
+        startdate,
+        enddate
+    };
+}
+
+router.get('/readsalesbyemployeeinyear/:id/:year',(req,res) =>{
+    let { startdate , enddate } = datetodatetimestring(req.params.year);
+    legacysystemhandler.executeopencrxcall('https://sepp-crm.inf.h-brs.de/opencrx-rest-CRX/org.opencrx.kernel.contract1/provider/CRX/segment/Standard/salesOrder?query=thereExistsSalesRep().governmentId().equalTo(:integer:' + req.params.id +');createdAt().between(:datetime:' + startdate +',:datetime:' + enddate + ')').then(async function(result) 
+        {
+            let salesorderspromises = result.data.objects.map((salesorder) => fetchsalesorderdata(salesorder));
+
+            await Promise.all(salesorderspromises).then((salesorders) => {
+                res.send(salesorders);
+            });
+        }
+    ).catch(function(err) 
+        {
+            res.status(404).send("no orders from this salesmen");
+        }
+    );
+});
+
 
 module.exports = router;

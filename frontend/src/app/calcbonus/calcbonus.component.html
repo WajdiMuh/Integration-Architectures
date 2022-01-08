@@ -1,1 +1,17 @@
-<p>{{selectedemp.employeeid}}</p>
+<div id="salesorderview">
+    <h1>Calculating Bonus for {{selectedemp.name}} </h1>
+    <p>Employee ID : {{selectedemp.employeeid}}</p>
+    <mat-spinner style="margin: auto;" *ngIf="finishedloading == false"></mat-spinner>
+    <div id="salesorder" *ngIf="finishedloading == true">
+      <mat-form-field appearance="fill">
+        <mat-label>Choose Year</mat-label>
+        <input matInput [matDatepicker]="dp" [formControl]="date">
+        <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+        <mat-datepicker #dp
+                        startView="multi-year"
+                        (yearSelected)="chosenYearHandler($event, dp)"
+                        panelClass="example-month-picker">
+        </mat-datepicker>
+      </mat-form-field>
+    </div>
+</div>
