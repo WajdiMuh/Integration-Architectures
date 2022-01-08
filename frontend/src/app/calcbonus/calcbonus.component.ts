@@ -32,7 +32,12 @@ export class CalcbonusComponent implements OnInit {
 
 
   constructor(private router: Router,private empservice:EmployeeService) {
-    this.selectedemp = this.router.getCurrentNavigation()?.extras?.state!['selectedemp'];
+    try {
+      this.selectedemp = this.router.getCurrentNavigation()?.extras?.state!['selectedemp'];
+    } catch (error) {
+      this.selectedemp = {name:"",department:"",jobtitle:"",employeeid:"",orangehrmid:""};
+      this.router.navigateByUrl("/");
+    }
   }
 
   chosenYearHandler(normalizedYear: moment.Moment, datepicker: MatDatepicker<moment.Moment>) {
@@ -41,6 +46,9 @@ export class CalcbonusComponent implements OnInit {
     this.empservice.getSalesbyemployeeinyear(this.selectedemp.employeeid,normalizedYear.year().toString()).subscribe(saleseorders => {
       console.log(saleseorders);
       this.finishedloading = true;
+    },error => {
+      this.finishedloading = true;
+      console.log("no sales orders");
     });
     datepicker.close();
   }
