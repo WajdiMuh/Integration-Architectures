@@ -18,6 +18,7 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatNativeDateModule} from '@angular/material/core';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatCardModule} from '@angular/material/card';
+import {CarouselModule} from 'primeng/carousel';
 
 
 
@@ -44,7 +45,8 @@ import {MatCardModule} from '@angular/material/card';
     ReactiveFormsModule,
     MatNativeDateModule,
     MatSnackBarModule,
-    MatCardModule
+    MatCardModule,
+    CarouselModule
   ],
   providers: [
     MatDatepickerModule

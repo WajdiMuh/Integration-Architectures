@@ -3,10 +3,9 @@
     margin: auto;
 }
 mat-card{
-    max-width: 200px;
     margin: 4px;
 }
 #card-container {
     display: flex;
-    flex-flow: row wrap;
+    overflow: auto;
 }

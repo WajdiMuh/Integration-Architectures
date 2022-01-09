@@ -13,18 +13,23 @@
                         panelClass="example-month-picker">
         </mat-datepicker>
       </mat-form-field>
-      <div id="card-container">
-        <mat-card class="example-card mat-elevation-z8" *ngFor="let salesorder of salesorders">
-          <mat-card-title-group>
-            <mat-card-title>{{salesorder.name}}</mat-card-title>
-            <mat-card-subtitle>Created at {{salesorder.date}}</mat-card-subtitle>
-          </mat-card-title-group>
-          <mat-card-content>
-            <p *ngFor="let product of salesorder.products">
-              {{product.name}} {{product.quantity}}
-            </p>
-          </mat-card-content>
-        </mat-card>
-      </div>
+      <p-carousel [value]="salesorders" [numVisible]="3" [numScroll]="3" *ngIf="salesorders.length != 0">
+        <ng-template pTemplate="header">
+          <h2>Sales Orders :</h2>
+        </ng-template>
+        <ng-template let-salesorder pTemplate="item">
+          <mat-card class="example-card">
+            <mat-card-title-group>
+              <mat-card-title>{{salesorder.name}}</mat-card-title>
+              <mat-card-subtitle>Created at {{salesorder.date}}</mat-card-subtitle>
+            </mat-card-title-group>
+            <mat-card-content>
+              <p *ngFor="let product of salesorder.products">
+                {{product.name}} {{product.quantity}}
+              </p>
+            </mat-card-content>
+          </mat-card>
+        </ng-template>
+      </p-carousel>
     </div>
 </div>
