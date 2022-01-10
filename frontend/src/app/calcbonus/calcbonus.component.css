@@ -5,7 +5,3 @@
 mat-card{
     margin: 4px;
 }
-#card-container {
-    display: flex;
-    overflow: auto;
-}

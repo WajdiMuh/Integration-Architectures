@@ -18,15 +18,36 @@
           <h2>Sales Orders :</h2>
         </ng-template>
         <ng-template let-salesorder pTemplate="item">
-          <mat-card class="example-card">
+          <mat-card class="example-card mat-elevation-z4">
             <mat-card-title-group>
               <mat-card-title>{{salesorder.name}}</mat-card-title>
               <mat-card-subtitle>Created at {{salesorder.date}}</mat-card-subtitle>
             </mat-card-title-group>
             <mat-card-content>
-              <p *ngFor="let product of salesorder.products">
-                {{product.name}} {{product.quantity}}
-              </p>
+              <div>
+                <h3>Financial Info</h3>
+                <p>
+                  Total Amount (excl. tax): {{salesorder.totalamount}}
+                </p>
+                <p>
+                  Tax: {{salesorder.tax}}
+                </p>
+                <p>
+                  Total Amount (incl. tax): {{salesorder.totalamountwithtax}}
+                </p>
+              </div>
+              <div *ngIf="salesorder.products.length != 0">
+                <h3>Products</h3>
+                <p *ngFor="let product of salesorder.products">
+                  Product Name: {{product.name}} Quantity: {{product.quantity}}
+                </p>
+              </div>
+              <div>
+                <h3>Customer</h3>
+                <p>
+                  Customer Name: {{salesorder.customer.name}} Rating: {{salesorder.customer.rating}}
+                </p>
+              </div>
             </mat-card-content>
           </mat-card>
         </ng-template>
