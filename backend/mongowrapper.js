@@ -2,99 +2,86 @@ const {EvaluationRecord} = require('./classes/EvaluationRecord');
 const MongoClient = require('mongodb').MongoClient;
 const url = "mongodb://127.0.0.1:27017";
 
-function readperformancerecords(sid,callback){
+function readperformancerecord(id,year,callback){
     MongoClient.connect(url,function(err,db){
         if (err) throw err;
         const performancedb = db.db("Performance");
         const performancerecordscollection = performancedb.collection("performanceevals");
-
-        performancerecordscollection.find({sid:sid}).toArray(function(err,results){
+        performancerecordscollection.findOne({id:id,year:year}).then((record) => {
             db.close();
-            if (err) throw err;
-            if (results.length == 0){
-                callback(err,null);
+            if(record){
+                callback(EvaluationRecord.fromJson(record));
             }else{
-                var records = [];
-                results.forEach(record => {
-                    records.push(EvaluationRecord.fromJson(record));
-                });
-                callback(null,records);
+                callback(null);
             }
         });
     });
 }
 
-function createperformancerecord(sid,record,callback){
+function createperformancerecord(id,year,recorddata,callback){
     MongoClient.connect(url,function(err,db){
         if (err) throw err;
         const performancedb = db.db("Performance");
         const performancerecordscollection = performancedb.collection("performanceevals");
-
-        performancerecordscollection.find({gid:record.gid}).toArray(function(err,results){
-            if (err) throw err;
-            if (results.length == 0){
-                record.sid = sid;
-                performancerecordscollection.insertOne(record.toJson()).then(() => {
+        performancerecordscollection.findOne({id:id,year:year}).then((record) => {
+            if(record){
+                db.close();
+                callback(null);
+            }else{
+                performancerecordscollection.insertOne(recorddata.toJson()).then(() => {
                     db.close();
-                    callback(null,record);
+                    callback(recorddata);
                 }).catch((err) => {
                     db.close();
-                    callback(err,null);
+                    callback(null);
                 });
-            }else{
-                db.close();
-                callback(err,null);
             }
         });
     });
 }
 
-function deleteperformancerecord(gid,callback){
+function deleteperformancerecord(id,year,callback){
     MongoClient.connect(url,function(err,db){
         if (err) throw err;
         const performancedb = db.db("Performance");
         const performancerecordscollection = performancedb.collection("performanceevals");
-
-        performancerecordscollection.find({gid:gid}).toArray(function(err,results){
-            if (err) throw err;
-            if (results.length == 0){
-                db.close();
-                callback(err,null);
-            }else{
-                performancerecordscollection.deleteOne({gid:gid}).then(() => {
+        performancerecordscollection.findOne({id:id,year:year}).then((record) => {
+            if(record){
+                performancerecordscollection.deleteOne({id:id,year:year}).then(() => {
                     db.close();
-                    callback(null,gid);
+                    callback(record);
                 }).catch((err) => {
                     db.close();
-                    callback(err,null);
+                    callback(null);
                 });
+            }else{
+                db.close();
+                callback(null);
             }
         });
     });
 }
 
-function updateperformancerecord(record,callback){
+function updateperformancerecord(id,year,recorddata,callback){
     MongoClient.connect(url,function(err,db){
         if (err) throw err;
         const performancedb = db.db("Performance");
         const performancerecordscollection = performancedb.collection("performanceevals");
-
-        performancerecordscollection.find({gid:record.gid}).toArray(function(err,results){
-            if (err) throw err;
-            if (results.length == 0){
-                db.close();
-                callback(err,null);
-            }else{
-                performancerecordscollection.findOneAndReplace({gid:record.gid},record.toJson()).then(() => {
+        performancerecordscollection.findOne({id:id,year:year}).then((record) => {
+            if(record){
+                performancerecordscollection.findOneAndReplace({id:id,year:year},recorddata.toJson()).then(() => {
                     db.close();
-                    callback(null,record);
+                    callback(recorddata);
                 }).catch((err) => {
                     db.close();
-                    callback(err,null);
+                    callback(null);
                 });
+            }else{
+                db.close();
+                callback(null);
             }
         });
     });
 }
 
-module.exports = {readperformancerecords,createperformancerecord,deleteperformancerecord,updateperformancerecord};
+module.exports = {readperformancerecord,createperformancerecord,deleteperformancerecord,updateperformancerecord};

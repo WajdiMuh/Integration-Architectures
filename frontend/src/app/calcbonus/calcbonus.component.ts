@@ -32,7 +32,6 @@ export class CalcbonusComponent implements OnInit {
   date = new FormControl();
   finishedloading:Boolean = true;
   salesorders:SalesOrder[] = [];
-
   constructor(private router: Router,private empservice:EmployeeService,private snackbar: MatSnackBar) {
     try {
       this.selectedemp = this.router.getCurrentNavigation()?.extras?.state!['selectedemp'];
@@ -46,6 +45,25 @@ export class CalcbonusComponent implements OnInit {
     this.date.setValue(normalizedYear);
     this.finishedloading = false;
     this.empservice.getSalesbyemployeeinyear(this.selectedemp.employeeid,normalizedYear.year().toString()).subscribe(salesorders => {
+      salesorders.forEach(salesorder => {
+        switch (salesorder.customer.rating) {
+          case 1:
+            salesorder.customer.ratingstring = "Excellent";
+            break;
+          case 2:
+            salesorder.customer.ratingstring = "Very Good";
+            break;
+          case 3:
+            salesorder.customer.ratingstring = "Good";
+            break;
+          case 4:
+            salesorder.customer.ratingstring = "Satisfactory";
+            break;
+          default:
+            salesorder.customer.ratingstring = "Satisfactory";
+            break;
+        }
+      });
       this.salesorders = salesorders;
       this.finishedloading = true;
     },error => {

@@ -1,17 +1,22 @@
 class EvaluationRecord{
-    constructor(sid,gid,gdesc,targetval,actualval,year){
-        this.sid = sid;
-        this.gid = gid;
-        this.gdesc = gdesc;
-        this.targetval = targetval;
-        this.actualval = actualval;
+    constructor(id,competence,openness,socialbehaviour,attitude,communication,integrity,year){
+        this.id = id;
+        this.competence = competence;
+        this.openness = openness;
+        this.socialbehaviour = socialbehaviour;
+        this.attitude = attitude;
+        this.communication = communication;
+        this.integrity = integrity;
         this.year = year;
     }
     static fromJson(json) {
-        return new EvaluationRecord(json['sid'],json['gid'],json['gdesc'],json['targetval'],json['actualval'],json['year']);
+        return new EvaluationRecord(json['id'],json['competence'],json['openness'],json['socialbehaviour'],json['attitude'],json['communication'],json['integrity'],json['year']);
+    }
+    static fromJsondata(id,year,json) {
+        return new EvaluationRecord(id,json['competence'],json['openness'],json['socialbehaviour'],json['attitude'],json['communication'],json['integrity'],year);
     }
     toJson() {
-        return {sid:this.sid,gid:this.gid,gdesc:this.gdesc,targetval:this.targetval,actualval:this.actualval,year:this.year};
+        return {id:this.id,competence:this.competence,socialbehaviour:this.socialbehaviour,attitude:this.attitude,communication:this.communication,integrity:this.integrity,year:this.year};
     }
 }
 module.exports = {EvaluationRecord};

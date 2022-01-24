@@ -2,17 +2,17 @@
     <h1>Calculating Bonus for {{selectedemp.name}} </h1>
     <p>Employee ID : {{selectedemp.employeeid}}</p>
     <mat-spinner style="margin: auto;" *ngIf="finishedloading == false"></mat-spinner>
+    <mat-form-field appearance="fill" *ngIf="finishedloading == true">
+      <mat-label>Choose Year</mat-label>
+      <input matInput [matDatepicker]="dp" [formControl]="date">
+      <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+      <mat-datepicker #dp
+                      startView="multi-year"
+                      (yearSelected)="chosenYearHandler($event, dp)"
+                      panelClass="example-month-picker">
+      </mat-datepicker>
+    </mat-form-field>
     <div id="salesorder" *ngIf="finishedloading == true">
-      <mat-form-field appearance="fill">
-        <mat-label>Choose Year</mat-label>
-        <input matInput [matDatepicker]="dp" [formControl]="date">
-        <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
-        <mat-datepicker #dp
-                        startView="multi-year"
-                        (yearSelected)="chosenYearHandler($event, dp)"
-                        panelClass="example-month-picker">
-        </mat-datepicker>
-      </mat-form-field>
       <p-carousel [value]="salesorders" [numVisible]="3" [numScroll]="3" *ngIf="salesorders.length != 0">
         <ng-template pTemplate="header">
           <h2>Sales Orders :</h2>
@@ -45,12 +45,22 @@
               <div>
                 <h3>Customer</h3>
                 <p>
-                  Customer Name: {{salesorder.customer.name}} Rating: {{salesorder.customer.rating}}
+                  Customer Name: {{salesorder.customer.name}} Rating: {{salesorder.customer.ratingstring}}
                 </p>
               </div>
             </mat-card-content>
           </mat-card>
         </ng-template>
       </p-carousel>
+    </div>
+    <div id="performancevaluation" *ngIf="finishedloading == true">
+        <h2>Performance Evaluation :</h2>
+          <mat-card class="example-card mat-elevation-z4">
+            <mat-card-content>
+              <p>
+                test
+              </p>
+            </mat-card-content>
+          </mat-card>
     </div>
 </div>

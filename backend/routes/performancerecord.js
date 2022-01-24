@@ -4,33 +4,36 @@ const {EvaluationRecord} = require('../classes/EvaluationRecord');
 const mongowrapper = require('../mongowrapper');
 router.use(express.json());
 
-router.get('/readperformancerecords/:id',(req,res) =>{
+router.get('/readperformancerecord/:id/:year',(req,res) =>{
     const id = parseInt(req.params.id);
-    mongowrapper.readperformancerecords(id,function(err,results){
-        if(results){
-            res.send(results);
+    const year = parseInt(req.params.year);
+    mongowrapper.readperformancerecord(id,year,function(result){
+        if(result){
+            res.send(result);
         }else{
-            res.status(404).send('cant find performance record with that id');
+            res.status(404).send('cant find performance record with that id or year');
         }
     });
 });
 
-router.post('/createperformancerecord/:id',(req,res) =>{
+router.post('/createperformancerecord/:id/:year',(req,res) =>{
     const id = parseInt(req.params.id);
-    const record = EvaluationRecord.fromJson(req.body);
-    mongowrapper.createperformancerecord(id,record,function(err,results){
-        if(results){
+    const year = parseInt(req.params.year);
+    const record = EvaluationRecord.fromJsondata(id,year,req.body);
+    mongowrapper.createperformancerecord(id,year,record,function(result){
+        if(result){
             res.status(201).send('created successfully');
         }else{
-            res.status(400).send('unable to create salesman');
+            res.status(400).send('unable to create performance record');
         }
     });
 });
 
-router.delete('/deleteperformancerecord/:gid',(req,res) =>{
-    const gid = parseInt(req.params.gid);
-    mongowrapper.deleteperformancerecord(gid,function(err,results){
-        if(results){
+router.delete('/deleteperformancerecord/:id/:year',(req,res) =>{
+    const id = parseInt(req.params.id);
+    const year = parseInt(req.params.year);
+    mongowrapper.deleteperformancerecord(id,year,function(result){
+        if(result){
             res.status(200).send('deleted successfully');
         }else{
             res.status(400).send('unable to delete');
@@ -38,10 +41,12 @@ router.delete('/deleteperformancerecord/:gid',(req,res) =>{
     });
 });
 
-router.put('/updateperformancerecord',(req,res) =>{
-    const record = EvaluationRecord.fromJson(req.body);
-    mongowrapper.updateperformancerecord(record,function(err,results){
-        if(results){
+router.put('/updateperformancerecord/:id/:year',(req,res) =>{
+    const id = parseInt(req.params.id);
+    const year = parseInt(req.params.year);
+    const record = EvaluationRecord.fromJsondata(id,year,req.body);
+    mongowrapper.updateperformancerecord(id,year,record,function(result){
+        if(result){
             res.status(200).send('updated successfully');
         }else{
             res.status(400).send('unable to update');
