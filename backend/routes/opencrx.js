@@ -84,7 +84,12 @@ router.get('/readallsales',(req,res) =>{
             let salesorderspromises = result.data.objects.map((salesorder) => fetchsalesorderdata(salesorder));
 
             await Promise.all(salesorderspromises).then((salesorders) => {
-                res.send(salesorders.filter(salesorder => salesorder.products.length > 0));
+                filteredsalesorder = salesorders.filter(salesorder => salesorder.products.length > 0);
+                if(filteredsalesorder.length > 0){
+                    res.send(filteredsalesorder);
+                }else{
+                    throw "error";
+                }
             });
         }
     );
@@ -109,7 +114,12 @@ router.get('/readsalesbyemployee/:id',(req,res) =>{
             let salesorderspromises = result.data.objects.map((salesorder) => fetchsalesorderdata(salesorder));
 
             await Promise.all(salesorderspromises).then((salesorders) => {
-                res.send(salesorders.filter(salesorder => salesorder.products.length > 0));
+                filteredsalesorder = salesorders.filter(salesorder => salesorder.products.length > 0);
+                if(filteredsalesorder.length > 0){
+                    res.send(filteredsalesorder);
+                }else{
+                    throw "error";
+                }
             });
         }
     ).catch(function(err) 
@@ -135,7 +145,12 @@ router.get('/readsalesbyemployeeinyear/:id/:year',(req,res) =>{
             let salesorderspromises = result.data.objects.map((salesorder) => fetchsalesorderdata(salesorder));
 
             await Promise.all(salesorderspromises).then((salesorders) => {
-                res.send(salesorders.filter(salesorder => salesorder.products.length > 0));
+                filteredsalesorder = salesorders.filter(salesorder => salesorder.products.length > 0);
+                if(filteredsalesorder.length > 0){
+                    res.send(filteredsalesorder);
+                }else{
+                    throw "error";
+                }
             });
         }
     ).catch(function(err) 
