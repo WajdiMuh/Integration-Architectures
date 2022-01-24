@@ -84,7 +84,7 @@ router.get('/readallsales',(req,res) =>{
             let salesorderspromises = result.data.objects.map((salesorder) => fetchsalesorderdata(salesorder));
 
             await Promise.all(salesorderspromises).then((salesorders) => {
-                res.send(salesorders);
+                res.send(salesorders.filter(salesorder => salesorder.products.length > 0));
             });
         }
     );
@@ -109,7 +109,7 @@ router.get('/readsalesbyemployee/:id',(req,res) =>{
             let salesorderspromises = result.data.objects.map((salesorder) => fetchsalesorderdata(salesorder));
 
             await Promise.all(salesorderspromises).then((salesorders) => {
-                res.send(salesorders);
+                res.send(salesorders.filter(salesorder => salesorder.products.length > 0));
             });
         }
     ).catch(function(err) 
@@ -135,7 +135,7 @@ router.get('/readsalesbyemployeeinyear/:id/:year',(req,res) =>{
             let salesorderspromises = result.data.objects.map((salesorder) => fetchsalesorderdata(salesorder));
 
             await Promise.all(salesorderspromises).then((salesorders) => {
-                res.send(salesorders);
+                res.send(salesorders.filter(salesorder => salesorder.products.length > 0));
             });
         }
     ).catch(function(err) 
