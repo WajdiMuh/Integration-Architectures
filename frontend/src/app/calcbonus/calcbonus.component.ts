@@ -9,6 +9,8 @@ import { MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/mat
 import { MatDatepicker } from '@angular/material/datepicker';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import { SalesOrder } from '../interfaces/SalesOrder';
+import { EvaluationRecord } from '../interfaces/EvaluationRecord';
+import { forkJoin } from 'rxjs';
 
 export const MY_FORMATS = {
   parse: {
@@ -32,6 +34,8 @@ export class CalcbonusComponent implements OnInit {
   date = new FormControl();
   finishedloading:Boolean = true;
   salesorders:SalesOrder[] = [];
+  performancerecord?:EvaluationRecord = undefined;
+  customerratings:String[] = ["Excellent","Very Good","Good","Satisfactory"];
   constructor(private router: Router,private empservice:EmployeeService,private snackbar: MatSnackBar) {
     try {
       this.selectedemp = this.router.getCurrentNavigation()?.extras?.state!['selectedemp'];
@@ -40,36 +44,22 @@ export class CalcbonusComponent implements OnInit {
       this.router.navigateByUrl("/");
     }
   }
-
   chosenYearHandler(normalizedYear: moment.Moment, datepicker: MatDatepicker<moment.Moment>) {
     this.date.setValue(normalizedYear);
     this.finishedloading = false;
-    this.empservice.getSalesbyemployeeinyear(this.selectedemp.employeeid,normalizedYear.year().toString()).subscribe(salesorders => {
-      salesorders.forEach(salesorder => {
-        switch (salesorder.customer.rating) {
-          case 1:
-            salesorder.customer.ratingstring = "Excellent";
-            break;
-          case 2:
-            salesorder.customer.ratingstring = "Very Good";
-            break;
-          case 3:
-            salesorder.customer.ratingstring = "Good";
-            break;
-          case 4:
-            salesorder.customer.ratingstring = "Satisfactory";
-            break;
-          default:
-            salesorder.customer.ratingstring = "Satisfactory";
-            break;
-        }
-      });
-      this.salesorders = salesorders;
+    const salesobs = this.empservice.getSalesbyemployeeinyear(this.selectedemp.employeeid,normalizedYear.year().toString());
+    const performancerecordobs = this.empservice.getperformancerecordforemployeeinyear(this.selectedemp.employeeid,normalizedYear.year().toString());
+
+    forkJoin([salesobs, performancerecordobs]).subscribe(results => {
+      this.salesorders = results[0];
+      this.performancerecord = results[1];
+      console.log(this.performancerecord);
       this.finishedloading = true;
     },error => {
       this.salesorders = [];
+      this.performancerecord = undefined;
       this.finishedloading = true;
-      this.snackbar.open('No sales orders for this employee in the specified year were found',undefined, {
+      this.snackbar.open('No sales orders or performance records for this employee in the specified year were found',undefined, {
         duration: 2000
       });
     });

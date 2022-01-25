@@ -45,7 +45,7 @@
               <div>
                 <h3>Customer</h3>
                 <p>
-                  Customer Name: {{salesorder.customer.name}} Rating: {{salesorder.customer.ratingstring}}
+                  Customer Name: {{salesorder.customer.name}} Rating: {{customerratings[salesorder.customer.rating - 1]}}
                 </p>
               </div>
             </mat-card-content>
@@ -53,12 +53,33 @@
         </ng-template>
       </p-carousel>
     </div>
-    <div id="performancevaluation" *ngIf="finishedloading == true">
+    <div id="performancevaluation" *ngIf="finishedloading == true && performancerecord != undefined">
         <h2>Performance Evaluation :</h2>
           <mat-card class="example-card mat-elevation-z4">
             <mat-card-content>
+              <h3>Leadership Competence</h3>
               <p>
-                test
+                Target Value: {{performancerecord.competence.targetval}} Actual Value: {{performancerecord.competence.actualval}}
+              </p>
+              <h3>Openness to Employee</h3>
+              <p>
+                Target Value: {{performancerecord.openness.targetval}} Actual Value: {{performancerecord.openness.actualval}}
+              </p>
+              <h3>Social Behavior to Employee</h3>
+              <p>
+                Target Value: {{performancerecord.socialbehaviour.targetval}} Actual Value: {{performancerecord.socialbehaviour.actualval}}
+              </p>
+              <h3>Attitude towards Client</h3>
+              <p>
+                Target Value: {{performancerecord.attitude.targetval}} Actual Value: {{performancerecord.attitude.actualval}}
+              </p>
+              <h3>Communication Skills</h3>
+              <p>
+                Target Value: {{performancerecord.communication.targetval}} Actual Value: {{performancerecord.communication.actualval}}
+              </p>
+              <h3>Integrity to Company</h3>
+              <p>
+                Target Value: {{performancerecord.integrity.targetval}} Actual Value: {{performancerecord.integrity.actualval}}
               </p>
             </mat-card-content>
           </mat-card>

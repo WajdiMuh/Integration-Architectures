@@ -16,7 +16,7 @@ class EvaluationRecord{
         return new EvaluationRecord(id,json['competence'],json['openness'],json['socialbehaviour'],json['attitude'],json['communication'],json['integrity'],year);
     }
     toJson() {
-        return {id:this.id,competence:this.competence,socialbehaviour:this.socialbehaviour,attitude:this.attitude,communication:this.communication,integrity:this.integrity,year:this.year};
+        return {id:this.id,competence:this.competence,openness:this.openness,socialbehaviour:this.socialbehaviour,attitude:this.attitude,communication:this.communication,integrity:this.integrity,year:this.year};
     }
 }
 module.exports = {EvaluationRecord};
