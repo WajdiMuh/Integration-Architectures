@@ -1,4 +1,4 @@
-<div id="salesorderview">
+<div id="BonusCalculationView">
     <h1>Calculating Bonus for {{selectedemp.name}} </h1>
     <p>Employee ID : {{selectedemp.employeeid}}</p>
     <mat-spinner style="margin: auto;" *ngIf="finishedloading == false"></mat-spinner>
@@ -84,4 +84,12 @@
             </mat-card-content>
           </mat-card>
     </div>
+    <div *ngIf="finishedloading == true && salesorders.length != 0 && performancerecord != undefined">
+      <h2>Remark :</h2>
+      <mat-form-field class="bonusremark" appearance="fill">
+        <mat-label>Remark for Bonus Calculation</mat-label>
+        <textarea matInput placeholder="Leave a remark to add to the bonus calculation" [(ngModel)]="remark"></textarea>
+      </mat-form-field>
+    </div>
 </div>
+<button mat-raised-button color="primary" id="confirmbonus" *ngIf="finishedloading == true && salesorders.length != 0 && performancerecord != undefined" (click)="confirmbonus()">Confirm Bonus</button>

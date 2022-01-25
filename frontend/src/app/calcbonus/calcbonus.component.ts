@@ -36,6 +36,7 @@ export class CalcbonusComponent implements OnInit {
   salesorders:SalesOrder[] = [];
   performancerecord?:EvaluationRecord = undefined;
   customerratings:String[] = ["Excellent","Very Good","Good","Satisfactory"];
+  remark:string = "";
   constructor(private router: Router,private empservice:EmployeeService,private snackbar: MatSnackBar) {
     try {
       this.selectedemp = this.router.getCurrentNavigation()?.extras?.state!['selectedemp'];
@@ -53,7 +54,6 @@ export class CalcbonusComponent implements OnInit {
     forkJoin([salesobs, performancerecordobs]).subscribe(results => {
       this.salesorders = results[0];
       this.performancerecord = results[1];
-      console.log(this.performancerecord);
       this.finishedloading = true;
     },error => {
       this.salesorders = [];
@@ -64,6 +64,10 @@ export class CalcbonusComponent implements OnInit {
       });
     });
     datepicker.close();
+  }
+
+  confirmbonus(){
+    
   }
 
   ngOnInit(): void {

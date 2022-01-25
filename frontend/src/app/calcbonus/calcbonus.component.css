@@ -1,7 +1,19 @@
-#salesorderview{
+#BonusCalculationView{
     width: 80%;
     margin: auto;
 }
 mat-card{
     margin: 4px;
+}
+.bonusremark{
+    width: 100%;
+    height: 40px;
+}
+textarea{
+    resize: none !important;
+}
+#confirmbonus{
+    position: fixed;
+    right: 1em;
+    bottom: 1em;
 }
