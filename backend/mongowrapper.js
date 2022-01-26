@@ -84,4 +84,26 @@ function updateperformancerecord(id,year,recorddata,callback){
     });
 }
 
-module.exports = {readperformancerecord,createperformancerecord,deleteperformancerecord,updateperformancerecord};
+function addbonusremark(id,year,remark,callback){
+    MongoClient.connect(url,function(err,db){
+        if (err) throw err;
+        const performancedb = db.db("Performance");
+        const bonusremarkscollection = performancedb.collection("bonusremarks");
+        bonusremarkscollection.findOne({id:id,year:year}).then((bonusremark) => {
+            if(bonusremark){
+                db.close();
+                callback(null);
+            }else{
+                bonusremarkscollection.insertOne({id:id,year:year,remark:remark}).then(() => {
+                    db.close();
+                    callback({id:id,year:year,remark:remark});
+                }).catch((err) => {
+                    db.close();
+                    callback(null);
+                });
+            }
+        });
+    });
+}
+
+module.exports = {readperformancerecord,createperformancerecord,deleteperformancerecord,updateperformancerecord,addbonusremark};

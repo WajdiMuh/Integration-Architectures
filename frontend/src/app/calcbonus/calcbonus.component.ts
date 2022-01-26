@@ -37,6 +37,7 @@ export class CalcbonusComponent implements OnInit {
   performancerecord?:EvaluationRecord = undefined;
   customerratings:String[] = ["Excellent","Very Good","Good","Satisfactory"];
   remark:string = "";
+  chosenyear?:moment.Moment = undefined;
   constructor(private router: Router,private empservice:EmployeeService,private snackbar: MatSnackBar) {
     try {
       this.selectedemp = this.router.getCurrentNavigation()?.extras?.state!['selectedemp'];
@@ -47,6 +48,8 @@ export class CalcbonusComponent implements OnInit {
   }
   chosenYearHandler(normalizedYear: moment.Moment, datepicker: MatDatepicker<moment.Moment>) {
     this.date.setValue(normalizedYear);
+    this.chosenyear = normalizedYear;
+
     this.finishedloading = false;
     const salesobs = this.empservice.getSalesbyemployeeinyear(this.selectedemp.employeeid,normalizedYear.year().toString());
     const performancerecordobs = this.empservice.getperformancerecordforemployeeinyear(this.selectedemp.employeeid,normalizedYear.year().toString());
@@ -67,7 +70,15 @@ export class CalcbonusComponent implements OnInit {
   }
 
   confirmbonus(){
-    
+    if(this.remark !== ""){
+      this.empservice.addremark(this.selectedemp.employeeid,this.chosenyear!.year().toString(),this.remark).subscribe(result => {
+      },error => {
+        console.log(error);
+        this.snackbar.open('remark already exists',undefined, {
+          duration: 2000
+        });
+      });
+    }
   }
 
   ngOnInit(): void {
