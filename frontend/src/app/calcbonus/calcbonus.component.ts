@@ -11,6 +11,8 @@ import {MatSnackBar} from '@angular/material/snack-bar';
 import { SalesOrder } from '../interfaces/SalesOrder';
 import { EvaluationRecord } from '../interfaces/EvaluationRecord';
 import { forkJoin } from 'rxjs';
+import {MatDialog} from '@angular/material/dialog';
+import { CalcbonusdialogComponent } from '../calcbonusdialog/calcbonusdialog.component';
 
 export const MY_FORMATS = {
   parse: {
@@ -36,9 +38,8 @@ export class CalcbonusComponent implements OnInit {
   salesorders:SalesOrder[] = [];
   performancerecord?:EvaluationRecord = undefined;
   customerratings:String[] = ["Excellent","Very Good","Good","Satisfactory"];
-  remark:string = "";
   chosenyear?:moment.Moment = undefined;
-  constructor(private router: Router,private empservice:EmployeeService,private snackbar: MatSnackBar) {
+  constructor(private router: Router,private empservice:EmployeeService,private snackbar: MatSnackBar,private dialog: MatDialog) {
     try {
       this.selectedemp = this.router.getCurrentNavigation()?.extras?.state!['selectedemp'];
     } catch (error) {
@@ -69,16 +70,31 @@ export class CalcbonusComponent implements OnInit {
     datepicker.close();
   }
 
-  confirmbonus(){
-    if(this.remark !== ""){
-      this.empservice.addremark(this.selectedemp.employeeid,this.chosenyear!.year().toString(),this.remark).subscribe(result => {
-      },error => {
-        console.log(error);
-        this.snackbar.open('remark already exists',undefined, {
-          duration: 2000
-        });
-      });
-    }
+  calculatebonus(){
+    const dialogRef = this.dialog.open(CalcbonusdialogComponent,{
+      width: '50%',
+      data: { 
+        salesorders: this.salesorders,
+        performancerecord: this.performancerecord
+       }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(result != undefined){
+
+        if(result.remark !== ""){
+          this.empservice.addremark(this.selectedemp.employeeid,this.chosenyear!.year().toString(),result.remark).subscribe(result => {
+          },error => {
+            this.snackbar.open('remark already exists',undefined, {
+              duration: 2000
+            });
+          });
+        }
+        
+
+      }
+    });
+
   }
 
   ngOnInit(): void {

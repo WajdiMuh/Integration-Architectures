@@ -1,0 +1,41 @@
+mat-divider{
+    margin-bottom: 12px !important;
+}
+
+.bonusremark{
+    width: 100%;
+}
+
+textarea{
+    resize: none !important;
+}
+
+.productquantity{
+    color: red;
+}
+
+.customerrating{
+    color: blue;
+}
+
+.targetval{
+    color: red;
+}
+
+.actualval{
+    color: blue;
+}
+
+.ordersevaluationbonus{
+    color: blue;
+}
+
+.socialperformanceevaluationbonus{
+    color: red;
+}
+
+.legend{
+    display: flex;
+    justify-content: flex-end;
+    gap: 20px;
+}

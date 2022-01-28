@@ -1,0 +1,33 @@
+<h2 mat-dialog-title>Confirm Bonus Calculation</h2>
+<mat-dialog-content class="mat-typography">
+  <h3>Orders Evaluation</h3>
+  <p [innerHtml]="ordersbonusstring"></p>
+  <div class="legend">
+    <p>Customer Rating <span class="customerrating">&#9679;</span></p>
+    <p>Product Quantity <span class="productquantity">&#9679;</span></p>
+  </div>
+  <mat-divider></mat-divider>
+  <h3>Social Performance Evaluation</h3>
+  <p [innerHtml]="performancebonusstring"></p>
+  <div class="legend">
+    <p>Target Value <span class="customerrating">&#9679;</span></p>
+    <p>Actual Value <span class="productquantity">&#9679;</span></p>
+  </div>
+  <mat-divider></mat-divider>
+  <h3>Total Bonus</h3>
+  <p [innerHtml]="totalbonusstring"></p>
+  <div class="legend">
+    <p>Orders Evaluation Bonus <span class="ordersevaluationbonus">&#9679;</span></p>
+    <p>Social Performance Evaluation Bonus <span class="socialperformanceevaluationbonus">&#9679;</span></p>
+  </div>
+  <mat-divider></mat-divider>
+  <h3>Remark</h3>
+  <mat-form-field class="bonusremark" appearance="fill">
+    <mat-label>Remark for Bonus Calculation</mat-label>
+    <textarea matInput placeholder="Leave a remark to add to the bonus calculation (Optional)" [(ngModel)]="remark"></textarea>
+  </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button [mat-dialog-close]="undefined">Cancel</button>
+  <button mat-button [mat-dialog-close]="{totalbonus,remark}" cdkFocusInitial color="primary">Confirm Bonus</button>
+</mat-dialog-actions>

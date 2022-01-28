@@ -19,6 +19,9 @@ import {MatNativeDateModule} from '@angular/material/core';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatCardModule} from '@angular/material/card';
 import {CarouselModule} from 'primeng/carousel';
+import {MatDialogModule} from '@angular/material/dialog';
+import { CalcbonusdialogComponent } from './calcbonusdialog/calcbonusdialog.component';
+import {MatDividerModule} from '@angular/material/divider';
 
 
 
@@ -26,7 +29,8 @@ import {CarouselModule} from 'primeng/carousel';
   declarations: [
     AppComponent,
     EmployeeComponent,
-    CalcbonusComponent  
+    CalcbonusComponent,
+    CalcbonusdialogComponent  
   ],
   imports: [
     BrowserModule,
@@ -46,7 +50,9 @@ import {CarouselModule} from 'primeng/carousel';
     MatNativeDateModule,
     MatSnackBarModule,
     MatCardModule,
-    CarouselModule
+    CarouselModule,
+    MatDialogModule,
+    MatDividerModule
   ],
   providers: [
     MatDatepickerModule

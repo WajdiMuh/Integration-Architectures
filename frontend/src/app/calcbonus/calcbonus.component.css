@@ -5,15 +5,20 @@
 mat-card{
     margin: 4px;
 }
-.bonusremark{
-    width: 100%;
-    height: 40px;
-}
-textarea{
-    resize: none !important;
-}
-#confirmbonus{
+#calculatebonus{
     position: fixed;
     right: 1em;
     bottom: 1em;
+}
+#performancevaluation{
+    padding-bottom: 60px;
+}
+#performancevaluationflex{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+#performancevaluationflex > mat-card{
+    flex-basis: 30%;
 }
