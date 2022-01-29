@@ -91,6 +91,11 @@ export class CalcbonusComponent implements OnInit {
           });
         }
 
+        this.empservice.addbonus(this.selectedemp.orangehrmid,this.chosenyear!.year(),result.totalbonus).subscribe(result => {
+        },error => {
+
+        });
+
       }
     });
 

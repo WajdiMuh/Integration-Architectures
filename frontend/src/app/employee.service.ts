@@ -50,4 +50,15 @@ export class EmployeeService {
     ));
   }
 
+  addbonus(employeeid:string,year:number,totalbonus:number): Observable<boolean>{
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+
+    return this.http.post<string>('/api/orangehrm/addbonussalary/' + employeeid,{"year":year,"value":totalbonus},{ headers, responseType: 'text' as 'json'})
+    .pipe(map(_ => true,
+      catchError(err => {
+        throw 'error ' + err;
+      })
+    ));
+  }
+
 }

@@ -42,7 +42,9 @@ export class CalcbonusdialogComponent implements OnInit {
     <sup class='actualval'>${this.data.performancerecord.socialbehaviour.actualval}</sup>/<sub class='targetval'>${this.data.performancerecord.socialbehaviour.targetval}</sub> +
     <sup class='actualval'>${this.data.performancerecord.attitude.actualval}</sup>/<sub class='targetval'>${this.data.performancerecord.attitude.targetval}</sub> +
     <sup class='actualval'>${this.data.performancerecord.communication.actualval}</sup>/<sub class='targetval'>${this.data.performancerecord.communication.targetval}</sub> +
-    <sup class='actualval'>${this.data.performancerecord.integrity.actualval}</sup>/<sub class='targetval'>${this.data.performancerecord.integrity.targetval}</sub> ) x 50 = ${performancebonus}€`;
+    <sup class='actualval'>${this.data.performancerecord.integrity.actualval}</sup>/<sub class='targetval'>${this.data.performancerecord.integrity.targetval}</sub> ) x 50 = ${performancebonus}€ ≈ ${Math.round(performancebonus)}€`;
+
+    performancebonus = Math.round(performancebonus);
 
     this.totalbonus = salesbonus + performancebonus;
     this.totalbonusstring = `<span class='ordersevaluationbonus'>${salesbonus}</span> + <span class='socialperformanceevaluationbonus'>${performancebonus}</span> = ${this.totalbonus}€`;
