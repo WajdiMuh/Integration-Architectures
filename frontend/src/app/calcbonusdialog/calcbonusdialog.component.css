@@ -10,28 +10,12 @@ textarea{
     resize: none !important;
 }
 
-.productquantity{
-    color: red;
+.productquantity,.targetval,.socialperformanceevaluationbonus{
+    color: #ff5263;
 }
 
-.customerrating{
-    color: blue;
-}
-
-.targetval{
-    color: red;
-}
-
-.actualval{
-    color: blue;
-}
-
-.ordersevaluationbonus{
-    color: blue;
-}
-
-.socialperformanceevaluationbonus{
-    color: red;
+.customerrating,.actualval,.ordersevaluationbonus{
+    color: #673ab7;
 }
 
 .legend{

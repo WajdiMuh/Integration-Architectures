@@ -1,0 +1,24 @@
+#title{
+    margin: auto;
+    font-size: 24pt;
+}
+.example-icon{
+    position: fixed;
+    z-index: 100 !important;
+    height: 86px;
+    width: 86px;
+    font-size: 48px;
+    left: 20px;
+    top: 20px;
+    background-image: linear-gradient(315deg, #673ab7, #967ad1);
+}
+mat-icon{
+    height:48px !important;
+    width:48px !important;
+    line-height: 48px !important;
+    font-size: 48px;
+}
+mat-toolbar{
+    color: white;
+    background-image: linear-gradient(45deg, #673ab7, #967ad1);
+}

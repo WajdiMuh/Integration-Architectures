@@ -1,8 +1,8 @@
-<mat-toolbar color="primary">
+<mat-toolbar >
     <button mat-icon-button class="example-icon" (click)="gohome()">
-      <mat-icon *ngIf="home == true" >home</mat-icon>
-      <mat-icon *ngIf="home == false" >arrow_back</mat-icon>
+      <mat-icon *ngIf="home == true"  inline="true">home</mat-icon>
+      <mat-icon *ngIf="home == false" inline="true">arrow_back</mat-icon>
     </button>
-    <span>{{title}}</span>
+    <span id="title" >{{title}}</span>
 </mat-toolbar>
 <router-outlet></router-outlet>

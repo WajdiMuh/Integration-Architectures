@@ -90,7 +90,6 @@ export class CalcbonusComponent implements OnInit {
             });
           });
         }
-        
 
       }
     });

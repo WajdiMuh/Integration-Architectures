@@ -37,11 +37,11 @@ router.post('/addbonussalary/:id',(req,res) =>{
     formData.append('value', req.body.value);
     legacysystemhandler.executepostorangehrmcall('employee/' + req.params.id + '/bonussalary',formData).then(function(result) 
         {
-            res.send(result);
+            res.send("bonus added successfully");
         }
     ).catch(function(err) 
         {
-            res.send(err);
+            res.status(400).send(err);
         }
     );
 });

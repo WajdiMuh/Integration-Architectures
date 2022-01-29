@@ -22,3 +22,8 @@ mat-card{
 #performancevaluationflex > mat-card{
     flex-basis: 30%;
 }
+
+#info{
+    margin-right: 48px;
+    margin-left: 48px;
+}
