@@ -27,3 +27,15 @@ mat-card{
     margin-right: 48px;
     margin-left: 48px;
 }
+#basicinfo{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    column-gap: 30px;
+    row-gap: 10px;
+    margin-bottom: 20px;
+}
+#basicinfo > p{
+    margin-top: 0;
+    margin-bottom: 0;
+}

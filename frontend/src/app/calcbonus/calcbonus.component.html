@@ -1,7 +1,12 @@
 <div id="BonusCalculationView">
   <h1>Calculating Bonus for {{selectedemp.name}} </h1>
+  <h2>Basic Info</h2>
     <div id="info">
-      <p>Employee ID : {{selectedemp.employeeid}}</p>
+      <div id="basicinfo">
+        <p>Employee ID : {{selectedemp.employeeid}}</p>
+        <p>Department : {{selectedemp.department}}</p>
+        <p>Job Title : {{selectedemp.jobtitle}}</p>
+      </div>
       <mat-spinner style="margin: auto;" *ngIf="finishedloading == false"></mat-spinner>
       <mat-form-field appearance="fill" *ngIf="finishedloading == true">
         <mat-label>Choose Year</mat-label>
@@ -62,7 +67,10 @@
             <mat-card-content>
               <h3>Leadership Competence</h3>
               <p>
-                Target Value: {{performancerecord.competence.targetval}} Actual Value: {{performancerecord.competence.actualval}}
+                Actual Value: {{performancerecord.competence.actualval}} 
+              </p>
+              <p>
+                Target Value: {{performancerecord.competence.targetval}}
               </p>
             </mat-card-content>
           </mat-card>
@@ -70,7 +78,10 @@
             <mat-card-content>
               <h3>Openness to Employee</h3>
               <p>
-                Target Value: {{performancerecord.openness.targetval}} Actual Value: {{performancerecord.openness.actualval}}
+                Actual Value: {{performancerecord.openness.actualval}}
+              </p>
+              <p>
+                Target Value: {{performancerecord.openness.targetval}}
               </p>
             </mat-card-content>
           </mat-card>
@@ -78,7 +89,10 @@
             <mat-card-content>
               <h3>Social Behavior to Employee</h3>
               <p>
-                Target Value: {{performancerecord.socialbehaviour.targetval}} Actual Value: {{performancerecord.socialbehaviour.actualval}}
+                Actual Value: {{performancerecord.socialbehaviour.actualval}}
+              </p>
+              <p>
+                Target Value: {{performancerecord.socialbehaviour.targetval}}
               </p>
             </mat-card-content>
           </mat-card>
@@ -86,7 +100,10 @@
             <mat-card-content>
               <h3>Attitude towards Client</h3>
               <p>
-                Target Value: {{performancerecord.attitude.targetval}} Actual Value: {{performancerecord.attitude.actualval}}
+                Actual Value: {{performancerecord.attitude.actualval}}
+              </p>
+              <p>
+                Target Value: {{performancerecord.attitude.targetval}}
               </p>
             </mat-card-content>
           </mat-card>
@@ -94,7 +111,10 @@
             <mat-card-content>
               <h3>Communication Skills</h3>
               <p>
-                Target Value: {{performancerecord.communication.targetval}} Actual Value: {{performancerecord.communication.actualval}}
+                Actual Value: {{performancerecord.communication.actualval}}
+              </p>
+              <p>
+                Target Value: {{performancerecord.communication.targetval}}
               </p>
             </mat-card-content>
           </mat-card>
@@ -102,7 +122,10 @@
             <mat-card-content>
               <h3>Integrity to Company</h3>
               <p>
-                Target Value: {{performancerecord.integrity.targetval}} Actual Value: {{performancerecord.integrity.actualval}}
+                Actual Value: {{performancerecord.integrity.actualval}}
+              </p>
+              <p>
+                Target Value: {{performancerecord.integrity.targetval}}
               </p>
             </mat-card-content>
           </mat-card>
