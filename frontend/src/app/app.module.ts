@@ -22,6 +22,7 @@ import {CarouselModule} from 'primeng/carousel';
 import {MatDialogModule} from '@angular/material/dialog';
 import { CalcbonusdialogComponent } from './calcbonusdialog/calcbonusdialog.component';
 import {MatDividerModule} from '@angular/material/divider';
+import {MatTooltipModule} from '@angular/material/tooltip';
 
 
 
@@ -52,7 +53,8 @@ import {MatDividerModule} from '@angular/material/divider';
     MatCardModule,
     CarouselModule,
     MatDialogModule,
-    MatDividerModule
+    MatDividerModule,
+    MatTooltipModule
   ],
   providers: [
     MatDatepickerModule

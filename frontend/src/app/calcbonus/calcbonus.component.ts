@@ -37,7 +37,7 @@ export class CalcbonusComponent implements OnInit {
   finishedloading:Boolean = true;
   salesorders:SalesOrder[] = [];
   performancerecord?:EvaluationRecord = undefined;
-  customerratings:String[] = ["Excellent","Very Good","Good","Satisfactory"];
+  customerratings:String[] = ["Satisfactory","Good","Very Good","Excellent"];
   chosenyear?:moment.Moment = undefined;
   constructor(private router: Router,private empservice:EmployeeService,private snackbar: MatSnackBar,private dialog: MatDialog) {
     try {

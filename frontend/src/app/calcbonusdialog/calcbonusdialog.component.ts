@@ -24,8 +24,8 @@ export class CalcbonusdialogComponent implements OnInit {
     this.data.salesorders.forEach(salesorder => {
       let amountofitems = 0;
       salesorder.products.forEach(product => amountofitems += product.quantity);
-      salesbonus += (5 - salesorder.customer.rating) * amountofitems;
-      this.ordersbonusstring += `<span class='customerrating'>${5 - salesorder.customer.rating}</span> x <span class='productquantity'>${amountofitems}</span> + `;
+      salesbonus += salesorder.customer.rating * amountofitems;
+      this.ordersbonusstring += `<span class='customerrating'>${salesorder.customer.rating}</span> x <span class='productquantity'>${amountofitems}</span> + `;
     });
     this.ordersbonusstring = this.ordersbonusstring.slice(0,-2);
     this.ordersbonusstring += `= ${salesbonus}€`;
