@@ -10,7 +10,7 @@ class Employee{
         return new Employee(json['fullName'],json['employeeId'],json['code'],json['jobTitle'],json['unit']);
     }
     static fromopenJson(json) {
-        return new Employee(json['firstName'] + ' ' + json['lastName'],undefined,json['governmentId'].toString(),json['jobTitle'],json['department']);
+        return new Employee(json['firstName'] + ' ' + json['lastName'],undefined, json['governmentId'] == undefined ? "0000" : json['governmentId'].toString(),json['jobTitle'],json['department']);
     }
     toJson() {
         return {name:this.name,orangehrmid:this.orangehrmid,employeeid:this.employeeid,jobtitle:this.jobtitle,department:this.department};
