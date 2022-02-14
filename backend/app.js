@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 const performancerecordrouter = require('./routes/performancerecord');
 const orangehrmrouter = require('./routes/orangehrm').router;
-const opencrxrouter = require('./routes/opencrx');
+const opencrxrouter = require('./routes/opencrx').router;
 const bonusremarkrouter = require('./routes/bonusremark');
 const legacysystemhandler = require('./legacysystemhandler')
 legacysystemhandler.getorangehrmtoken();

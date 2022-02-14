@@ -8,8 +8,8 @@ const { Employee } = require('../classes/Employee');
 const moment = require('moment');
 router.use(express.json());
 
-router.get('/readallcustomers',(req,res) =>{
-    legacysystemhandler.executeopencrxcall('https://sepp-crm.inf.h-brs.de/opencrx-rest-CRX/org.opencrx.kernel.account1/provider/CRX/segment/Standard/account?queryType=org:opencrx:kernel:account1:LegalEntity').then(function(result) 
+async function readallcustomers(req,res){
+    return await legacysystemhandler.executeopencrxcall('https://sepp-crm.inf.h-brs.de/opencrx-rest-CRX/org.opencrx.kernel.account1/provider/CRX/segment/Standard/account?queryType=org:opencrx:kernel:account1:LegalEntity').then(function(result) 
         {
             let customers = [];
             result.data.objects.forEach(cus => {
@@ -18,10 +18,10 @@ router.get('/readallcustomers',(req,res) =>{
             res.send(customers);
         }
     );
-});
+}
 
-router.get('/readcustomer/:id',(req,res) => {
-    legacysystemhandler.executeopencrxcall('https://sepp-crm.inf.h-brs.de/opencrx-rest-CRX/org.opencrx.kernel.account1/provider/CRX/segment/Standard/account/' + req.params.id).then(function(result) 
+async function readcustomer(req,res){
+    return await legacysystemhandler.executeopencrxcall('https://sepp-crm.inf.h-brs.de/opencrx-rest-CRX/org.opencrx.kernel.account1/provider/CRX/segment/Standard/account/' + req.params.id).then(function(result) 
         {
             res.send(Customer.fromJson(result.data));
         }
@@ -30,10 +30,10 @@ router.get('/readcustomer/:id',(req,res) => {
             res.status(404).send("customer not found");
         }
     );
-});
+}
 
-router.get('/readallproducts',(req,res) =>{
-    legacysystemhandler.executeopencrxcall('https://sepp-crm.inf.h-brs.de/opencrx-rest-CRX/org.opencrx.kernel.product1/provider/CRX/segment/Standard/product').then(function(result) 
+async function readallproducts(req,res){
+    return await legacysystemhandler.executeopencrxcall('https://sepp-crm.inf.h-brs.de/opencrx-rest-CRX/org.opencrx.kernel.product1/provider/CRX/segment/Standard/product').then(function(result) 
         {
             let products = [];
             result.data.objects.forEach(prod => {
@@ -42,19 +42,20 @@ router.get('/readallproducts',(req,res) =>{
             res.send(products);
         }
     );
-});
+}
 
-router.get('/readproduct/:id',(req,res) =>{
-    legacysystemhandler.executeopencrxcall('https://sepp-crm.inf.h-brs.de/opencrx-rest-CRX/org.opencrx.kernel.product1/provider/CRX/segment/Standard/product/' + req.params.id).then(function(result) 
-        {
-            res.send(Product.fromJson(result.data));
-        }
+async function readproduct(req,res){
+    return await legacysystemhandler.executeopencrxcall('https://sepp-crm.inf.h-brs.de/opencrx-rest-CRX/org.opencrx.kernel.product1/provider/CRX/segment/Standard/product/' + req.params.id).then(function(result) 
+    {
+        res.send(Product.fromJson(result.data));
+    }
     ).catch(function() 
         {
             res.status(404).send("product not found");
         }
     );
-});
+}
+
 async function fetchsalesorderdata(salesorderjson){
     let customerrequest = await legacysystemhandler.executeopencrxcall(salesorderjson['customer']['@href']);
     let customer = Customer.fromJson(customerrequest.data);
@@ -78,38 +79,38 @@ async function fetchsalesorderdata(salesorderjson){
     })
 }
 
-router.get('/readallsales',(req,res) =>{
-    legacysystemhandler.executeopencrxcall('https://sepp-crm.inf.h-brs.de/opencrx-rest-CRX/org.opencrx.kernel.contract1/provider/CRX/segment/Standard/salesOrder').then(async function(result) 
-        {
-            let salesorderspromises = result.data.objects.map((salesorder) => fetchsalesorderdata(salesorder));
+async function readallsales(req,res){
+    return await legacysystemhandler.executeopencrxcall('https://sepp-crm.inf.h-brs.de/opencrx-rest-CRX/org.opencrx.kernel.contract1/provider/CRX/segment/Standard/salesOrder').then(async function(result) 
+    {
+        let salesorderspromises = result.data.objects.map((salesorder) => fetchsalesorderdata(salesorder));
 
-            await Promise.all(salesorderspromises).then((salesorders) => {
-                filteredsalesorder = salesorders.filter(salesorder => salesorder.products.length > 0);
-                if(filteredsalesorder.length > 0){
-                    res.send(filteredsalesorder);
-                }else{
-                    throw "error";
-                }
-            });
-        }
+        await Promise.all(salesorderspromises).then((salesorders) => {
+            filteredsalesorder = salesorders.filter(salesorder => salesorder.products.length > 0);
+            if(filteredsalesorder.length > 0){
+                res.send(filteredsalesorder);
+            }else{
+                throw "error";
+            }
+        });
+    }
     );
-});
+}
 
-router.get('/readsale/:id',(req,res) =>{
-    legacysystemhandler.executeopencrxcall('https://sepp-crm.inf.h-brs.de/opencrx-rest-CRX/org.opencrx.kernel.contract1/provider/CRX/segment/Standard/salesOrder/' + req.params.id).then(async function(result) 
-        {
-            let salesorder = await fetchsalesorderdata(result.data);
-            res.send(salesorder);
-        }
+async function readsale(req,res){
+    return await legacysystemhandler.executeopencrxcall('https://sepp-crm.inf.h-brs.de/opencrx-rest-CRX/org.opencrx.kernel.contract1/provider/CRX/segment/Standard/salesOrder/' + req.params.id).then(async function(result) 
+    {
+        let salesorder = await fetchsalesorderdata(result.data);
+        res.send(salesorder);
+    }
     ).catch(function(err) 
         {
             res.status(404).send("order not found");
         }
     );
-});
+}
 
-router.get('/readsalesbyemployee/:id',(req,res) =>{
-    legacysystemhandler.executeopencrxcall('https://sepp-crm.inf.h-brs.de/opencrx-rest-CRX/org.opencrx.kernel.contract1/provider/CRX/segment/Standard/salesOrder?query=thereExistsSalesRep().governmentId().equalTo(:integer:' + req.params.id +')').then(async function(result) 
+async function readsalesbyemployee(req,res){
+    return await legacysystemhandler.executeopencrxcall('https://sepp-crm.inf.h-brs.de/opencrx-rest-CRX/org.opencrx.kernel.contract1/provider/CRX/segment/Standard/salesOrder?query=thereExistsSalesRep().governmentId().equalTo(:integer:' + req.params.id +')').then(async function(result) 
         {
             let salesorderspromises = result.data.objects.map((salesorder) => fetchsalesorderdata(salesorder));
 
@@ -127,7 +128,7 @@ router.get('/readsalesbyemployee/:id',(req,res) =>{
             res.status(404).send("no orders from this salesmen");
         }
     );
-});
+}
 
 function datetodatetimestring(year){
     let startdate = moment(year).toISOString(true).replaceAll('-','').replaceAll(':','').slice(0, -5) + "Z";
@@ -138,9 +139,9 @@ function datetodatetimestring(year){
     };
 }
 
-router.get('/readsalesbyemployeeinyear/:id/:year',(req,res) =>{
+async function readsalesbyemployeeinyear(req,res){
     let { startdate , enddate } = datetodatetimestring(req.params.year);
-    legacysystemhandler.executeopencrxcall('https://sepp-crm.inf.h-brs.de/opencrx-rest-CRX/org.opencrx.kernel.contract1/provider/CRX/segment/Standard/salesOrder?query=thereExistsSalesRep().governmentId().equalTo(:integer:' + req.params.id +');createdAt().between(:datetime:' + startdate +',:datetime:' + enddate + ')').then(async function(result) 
+    return await legacysystemhandler.executeopencrxcall('https://sepp-crm.inf.h-brs.de/opencrx-rest-CRX/org.opencrx.kernel.contract1/provider/CRX/segment/Standard/salesOrder?query=thereExistsSalesRep().governmentId().equalTo(:integer:' + req.params.id +');createdAt().between(:datetime:' + startdate +',:datetime:' + enddate + ')').then(async function(result) 
         {
             let salesorderspromises = result.data.objects.map((salesorder) => fetchsalesorderdata(salesorder));
 
@@ -158,7 +159,22 @@ router.get('/readsalesbyemployeeinyear/:id/:year',(req,res) =>{
             res.status(404).send("no orders from this salesmen");
         }
     );
-});
+}
 
+router.get('/readallcustomers',readallcustomers);
 
-module.exports = router;
+router.get('/readcustomer/:id',readcustomer);
+
+router.get('/readallproducts',readallproducts);
+
+router.get('/readproduct/:id',readproduct);
+
+router.get('/readallsales',readallsales);
+
+router.get('/readsale/:id',readsale);
+
+router.get('/readsalesbyemployee/:id',readsalesbyemployee);
+
+router.get('/readsalesbyemployeeinyear/:id/:year',readsalesbyemployeeinyear);
+
+module.exports = {router,readallcustomers,readcustomer,readallproducts,readproduct,readallsales,readsale,readsalesbyemployee,readsalesbyemployeeinyear};
